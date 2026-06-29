@@ -86,11 +86,16 @@ const products = {
   ],
 };
 
+interface Product {
+  id: number; name: string; price: string; originalPrice: string | null;
+  badge: string | null; desc: string; image: string | null; category: string;
+}
+
 /* ─────────────────────────────────────────────
    PRODUCT CARD — with 3D tilt, cloud emerge, zoom
 ───────────────────────────────────────────── */
 function ProductCard({ product, delay }: {
-  product: typeof products.watches[0];
+  product: Product;
   delay: number;
 }) {
   const [wishlisted, setWishlisted] = useState(false);

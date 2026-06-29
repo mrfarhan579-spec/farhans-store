@@ -7,11 +7,16 @@ export default function FloatingParticles() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctxOrNull = canvas.getContext('2d');
+    if (!ctxOrNull) return;
+    const ctx: CanvasRenderingContext2D = ctxOrNull;
+
+    // Use a local stable reference inside closure
+    const cvs = canvas;
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = document.body.scrollHeight;
+      cvs.width = window.innerWidth;
+      cvs.height = document.body.scrollHeight;
     };
     resize();
     window.addEventListener('resize', resize);
@@ -31,8 +36,8 @@ export default function FloatingParticles() {
     ];
 
     const particles: Particle[] = Array.from({ length: 80 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
+      x: Math.random() * cvs.width,
+      y: Math.random() * cvs.height,
       vx: (Math.random() - 0.5) * 0.25,
       vy: -Math.random() * 0.4 - 0.1,
       size: Math.random() * 2 + 0.3,
@@ -45,7 +50,7 @@ export default function FloatingParticles() {
     let animId: number;
 
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
 
       const scrollY = window.scrollY;
 
@@ -54,13 +59,11 @@ export default function FloatingParticles() {
         p.x += p.vx + Math.sin(p.life * 0.5) * 0.15;
         p.y += p.vy;
 
-        // Parallax with scroll
         const parallaxY = p.y - scrollY * 0.1;
 
-        // Reset if out of view
         if (p.y < -50) {
-          p.y = canvas.height + 50;
-          p.x = Math.random() * canvas.width;
+          p.y = cvs.height + 50;
+          p.x = Math.random() * cvs.width;
         }
 
         const pulse = 0.5 + 0.5 * Math.sin(p.life * 2);
@@ -68,12 +71,9 @@ export default function FloatingParticles() {
 
         ctx.save();
         ctx.globalAlpha = alpha;
-
-        // Glow
         ctx.shadowColor = p.color + '0.8)';
         ctx.shadowBlur = 8;
         ctx.fillStyle = p.color + '1)';
-
         ctx.beginPath();
         ctx.arc(p.x, parallaxY, p.size * (0.7 + pulse * 0.5), 0, Math.PI * 2);
         ctx.fill();

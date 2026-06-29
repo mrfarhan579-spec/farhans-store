@@ -7,15 +7,18 @@ export default function ParticleCursor() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctxOrNull = canvas.getContext('2d');
+    if (!ctxOrNull) return;
+    const ctx: CanvasRenderingContext2D = ctxOrNull;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const cvs = canvas;
 
     const onResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      cvs.width = window.innerWidth;
+      cvs.height = window.innerHeight;
     };
+    cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
     window.addEventListener('resize', onResize);
 
     let mouseX = window.innerWidth / 2;
@@ -29,7 +32,6 @@ export default function ParticleCursor() {
     };
     window.addEventListener('mousemove', onMouseMove);
 
-    // Trail particles
     interface TrailParticle {
       x: number; y: number;
       vx: number; vy: number;
@@ -37,41 +39,37 @@ export default function ParticleCursor() {
       size: number; color: string;
     }
 
-    const trail: TrailParticle[] = [];
-
-    // Ambient particles that react to cursor
     interface AmbientParticle {
       x: number; y: number;
-      ox: number; oy: number; // original position
+      ox: number; oy: number;
       vx: number; vy: number;
       size: number; opacity: number;
       color: string;
     }
 
-    const ambient: AmbientParticle[] = [];
+    const trail: TrailParticle[] = [];
     const goldColors = ['#C9A84C', '#E8C97A', '#A07830', '#F0D88A'];
 
-    for (let i = 0; i < 60; i++) {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
-      ambient.push({
+    const ambient: AmbientParticle[] = Array.from({ length: 60 }, () => {
+      const x = Math.random() * cvs.width;
+      const y = Math.random() * cvs.height;
+      return {
         x, y, ox: x, oy: y,
         vx: 0, vy: 0,
         size: Math.random() * 2 + 0.5,
         opacity: Math.random() * 0.4 + 0.05,
         color: goldColors[Math.floor(Math.random() * goldColors.length)],
-      });
-    }
+      };
+    });
 
     let frame = 0;
     let animId: number;
 
     function spawnTrail() {
-      const spread = 3;
       for (let i = 0; i < 2; i++) {
         trail.push({
-          x: cursorX + (Math.random() - 0.5) * spread,
-          y: cursorY + (Math.random() - 0.5) * spread,
+          x: cursorX + (Math.random() - 0.5) * 3,
+          y: cursorY + (Math.random() - 0.5) * 3,
           vx: (Math.random() - 0.5) * 0.8,
           vy: (Math.random() - 0.5) * 0.8 - 0.3,
           life: 1,
@@ -83,42 +81,35 @@ export default function ParticleCursor() {
     }
 
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
       frame++;
 
-      // Smooth cursor follow
       cursorX += (mouseX - cursorX) * 0.12;
       cursorY += (mouseY - cursorY) * 0.12;
 
-      // Spawn trail particles
       if (frame % 2 === 0) spawnTrail();
 
-      // Draw & update ambient particles (react to cursor)
+      // Ambient particles
       ambient.forEach(p => {
         const dx = p.x - mouseX;
         const dy = p.y - mouseY;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const repelRadius = 120;
 
-        if (dist < repelRadius) {
+        if (dist < repelRadius && dist > 0) {
           const force = (repelRadius - dist) / repelRadius;
           p.vx += (dx / dist) * force * 2.5;
           p.vy += (dy / dist) * force * 2.5;
         }
 
-        // Spring back to original position
         p.vx += (p.ox - p.x) * 0.04;
         p.vy += (p.oy - p.y) * 0.04;
-
-        // Damping
         p.vx *= 0.88;
         p.vy *= 0.88;
-
         p.x += p.vx;
         p.y += p.vy;
 
         const pulse = 0.5 + 0.5 * Math.sin(frame * 0.02 + p.ox * 0.01);
-
         ctx.save();
         ctx.globalAlpha = p.opacity * pulse;
         ctx.fillStyle = p.color;
@@ -130,20 +121,17 @@ export default function ParticleCursor() {
         ctx.restore();
       });
 
-      // Draw & update trail particles
+      // Trail
       for (let i = trail.length - 1; i >= 0; i--) {
         const p = trail[i];
         p.life -= 1;
         p.x += p.vx;
         p.y += p.vy;
-        p.vy -= 0.01; // slight float up
+        p.vy -= 0.01;
         p.vx *= 0.96;
         p.vy *= 0.96;
 
-        if (p.life <= 0) {
-          trail.splice(i, 1);
-          continue;
-        }
+        if (p.life <= 0) { trail.splice(i, 1); continue; }
 
         const lifeRatio = p.life / p.maxLife;
         ctx.save();
@@ -157,7 +145,7 @@ export default function ParticleCursor() {
         ctx.restore();
       }
 
-      // Draw main cursor dot
+      // Main cursor dot
       const t = frame * 0.05;
       const pulseSize = 5 + Math.sin(t) * 1.5;
 
@@ -173,12 +161,11 @@ export default function ParticleCursor() {
       ctx.stroke();
       ctx.restore();
 
-      // Inner glow dot
+      // Inner glow
       const dotGrad = ctx.createRadialGradient(cursorX, cursorY, 0, cursorX, cursorY, pulseSize * 2);
       dotGrad.addColorStop(0, '#E8C97A');
       dotGrad.addColorStop(0.5, '#C9A84C');
       dotGrad.addColorStop(1, 'rgba(201,168,76,0)');
-
       ctx.save();
       ctx.globalAlpha = 0.9;
       ctx.fillStyle = dotGrad;
