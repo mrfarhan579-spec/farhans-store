@@ -36,6 +36,17 @@ body {
   cursor: none;
 }
 
+/* Lenis smooth scroll */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
 /* Custom Cursor */
 .cursor {
   width: 12px;
