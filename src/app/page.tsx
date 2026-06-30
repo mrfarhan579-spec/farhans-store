@@ -14,7 +14,6 @@ import Footer from '@/components/Footer';
 import LoadingScreen from '@/components/LoadingScreen';
 
 const CloudIntro        = dynamic(() => import('@/components/CloudIntro'),        { ssr: false });
-const ParticleCursor    = dynamic(() => import('@/components/ParticleCursor'),    { ssr: false });
 const FloatingParticles = dynamic(() => import('@/components/FloatingParticles'), { ssr: false });
 const LenisSmoothScroll = dynamic(() => import('@/components/LenisSmoothScroll'), { ssr: false });
 
@@ -24,18 +23,14 @@ export default function Home() {
 
   return (
     <>
-      {/* Step 1 — Cinematic cloud intro */}
+      {/* Step 1 — Cloud intro */}
       <AnimatePresence>
-        {!cloudDone && (
-          <CloudIntro onComplete={() => setCloudDone(true)} />
-        )}
+        {!cloudDone && <CloudIntro onComplete={() => setCloudDone(true)} />}
       </AnimatePresence>
 
-      {/* Step 2 — Counter loading screen (000 → 100) */}
+      {/* Step 2 — Counter loader */}
       <AnimatePresence>
-        {cloudDone && !loadDone && (
-          <LoadingScreen onComplete={() => setLoadDone(true)} />
-        )}
+        {cloudDone && !loadDone && <LoadingScreen onComplete={() => setLoadDone(true)} />}
       </AnimatePresence>
 
       {/* Step 3 — Main site */}
@@ -45,10 +40,9 @@ export default function Home() {
             key="main"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: 'easeOut' }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
             style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}
           >
-            <ParticleCursor />
             <FloatingParticles />
             <LenisSmoothScroll>
               <Navbar />
