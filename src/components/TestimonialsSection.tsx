@@ -1,181 +1,106 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 const testimonials = [
-  {
-    name: 'Alexander Morrison',
-    role: 'CEO, Morrison Capital',
-    text: 'The Royal Chronograph I purchased exceeded every expectation. The craftsmanship is extraordinary — I wear it to every boardroom meeting.',
-    stars: 5,
-    initials: 'AM',
-  },
-  {
-    name: 'Isabella Fontaine',
-    role: 'Fashion Director, Vogue Paris',
-    text: 'Farhan\'s bespoke suits are in a league of their own. The attention to detail, the fabric quality, the perfect silhouette — simply unmatched.',
-    stars: 5,
-    initials: 'IF',
-  },
-  {
-    name: 'Rajiv Chandra',
-    role: 'Entrepreneur & Collector',
-    text: 'Oud Majesty has become my signature scent. People ask me about it everywhere I go. Worth every single penny — a true masterpiece.',
-    stars: 5,
-    initials: 'RC',
-  },
-  {
-    name: 'Sophie Laurent',
-    role: 'Interior Designer',
-    text: 'From the packaging to the product itself, everything screams luxury. This is not just shopping — it\'s an experience. My go-to for gifts.',
-    stars: 5,
-    initials: 'SL',
-  },
+  { name: 'Ahmed Hassan', role: 'Business Executive', location: 'Lahore, Pakistan', text: "The Rolex I ordered arrived perfectly packaged. Absolutely stunning craftsmanship — worth every rupee. Farhan's Store is now my go-to for luxury.", rating: 5, initials: 'AH' },
+  { name: 'Bilal Raza', role: 'Fashion Enthusiast', location: 'Karachi, Pakistan', text: "Ordered the Janan Gold Edition and I'm blown away. The fragrance lasts all day and gets compliments everywhere. Premium experience from start to finish.", rating: 5, initials: 'BR' },
+  { name: 'Usman Malik', role: 'Entrepreneur', location: 'Islamabad, Pakistan', text: "My bespoke shirt arrived perfectly fitted. The quality rivals international luxury brands at a fraction of the price. Exceptional service.", rating: 5, initials: 'UM' },
+  { name: 'Farooq Siddiqui', role: 'Corporate Manager', location: 'Rawalpindi, Pakistan', text: "The TimeCheck watch exceeded all expectations. The green dial is stunning. Fast delivery and beautifully presented. Highly recommend!", rating: 5, initials: 'FS' },
 ];
 
 export default function TestimonialsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) {
-          sectionRef.current?.querySelectorAll('.t-card').forEach((el, i) => {
-            setTimeout(() => {
-              (el as HTMLElement).style.opacity = '1';
-              (el as HTMLElement).style.transform = 'translateY(0)';
-            }, i * 150);
-          });
-        }
-      }),
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={sectionRef} style={{ padding: '8rem 2rem', position: 'relative' }}>
+    <section style={{ padding: '8rem 2rem', position: 'relative', zIndex: 1 }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-          <span className="section-label" style={{ display: 'block', marginBottom: '1rem' }}>Client Stories</span>
-          <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', color: 'rgba(245,240,232,0.95)', marginBottom: '1rem' }}>
-            What Our <span className="gold-text">Clients Say</span>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.9 }}
+          style={{ textAlign: 'center', marginBottom: '5rem' }}
+        >
+          <span style={{ fontFamily: 'Jost', fontWeight: 300, letterSpacing: '0.4em', textTransform: 'uppercase', fontSize: '0.68rem', color: '#C9A84C', display: 'block', marginBottom: '1rem' }}>
+            Client Stories
+          </span>
+          <h2 style={{ fontFamily: 'Cormorant, serif', fontWeight: 600, fontSize: 'clamp(2.2rem,5vw,3.5rem)', color: 'rgba(245,240,232,0.95)', marginBottom: '1rem', lineHeight: 1.1 }}>
+            What Our Clients <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Say</span>
           </h2>
-          <div className="divider-gold" style={{ maxWidth: '120px', margin: '0 auto' }} />
-        </div>
+          <motion.div
+            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ height: '1px', maxWidth: '100px', margin: '0 auto', background: 'linear-gradient(90deg,transparent,#C9A84C,transparent)', opacity: 0.4 }}
+          />
+        </motion.div>
 
-        {/* Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.5rem',
-        }}>
+        {/* Cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(270px,1fr))', gap: '1.5rem' }}>
           {testimonials.map((t, i) => (
-            <div
-              key={t.name}
-              className="testimonial-card t-card"
-              style={{
-                padding: '2rem',
-                opacity: 0,
-                transform: 'translateY(30px)',
-                transition: 'all 0.7s ease',
-              }}
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.7, delay: i * 0.15 }}
+              whileHover={{ y: -8, boxShadow: '0 25px 50px rgba(0,0,0,0.5),0 0 30px rgba(201,168,76,0.06)' }}
+              onHoverStart={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.25)'; }}
+              onHoverEnd={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.1)'; }}
+              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,168,76,0.1)', borderRadius: '16px', padding: '2rem', cursor: 'default', transition: 'border-color 0.3s ease' }}
             >
-              {/* Quote icon */}
-              <div style={{
-                fontFamily: 'Cormorant, serif',
-                fontSize: '4rem',
-                lineHeight: 1,
-                color: 'rgba(201,168,76,0.2)',
-                marginBottom: '1rem',
-                marginTop: '-0.5rem',
-              }}>
-                "
-              </div>
-
               {/* Stars */}
-              <div className="stars" style={{ fontSize: '0.75rem', marginBottom: '1rem' }}>
-                {'★'.repeat(t.stars)}
+              <div style={{ display: 'flex', gap: '3px', marginBottom: '1.2rem' }}>
+                {Array(t.rating).fill(0).map((_, s) => (
+                  <motion.span key={s}
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.15 + s * 0.07, type: 'spring', stiffness: 300 }}
+                    style={{ color: '#C9A84C', fontSize: '0.85rem' }}
+                  >★</motion.span>
+                ))}
               </div>
 
-              {/* Text */}
-              <p style={{
-                fontFamily: 'Montserrat',
-                fontWeight: 300,
-                fontSize: '0.9rem',
-                color: 'rgba(245,240,232,0.6)',
-                lineHeight: 1.8,
-                marginBottom: '1.5rem',
-                fontStyle: 'italic',
-              }}>
-                "{t.text}"
+              {/* Quote */}
+              <p style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: '0.87rem', color: 'rgba(245,240,232,0.55)', lineHeight: 1.85, marginBottom: '1.8rem', fontStyle: 'italic' }}>
+                &ldquo;{t.text}&rdquo;
               </p>
 
+              <div style={{ height: '1px', background: 'rgba(201,168,76,0.08)', marginBottom: '1.3rem' }} />
+
               {/* Author */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                <div style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.05))',
-                  border: '1px solid rgba(201,168,76,0.25)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: 'Cormorant, serif',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  color: 'var(--gold)',
-                }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+                <motion.div whileHover={{ scale: 1.1 }}
+                  style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'linear-gradient(135deg,#A07830,#E8C97A)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Cormorant, serif', fontWeight: 700, fontSize: '0.9rem', color: '#0A0A0A', flexShrink: 0 }}>
                   {t.initials}
-                </div>
+                </motion.div>
                 <div>
-                  <div style={{
-                    fontFamily: 'Montserrat',
-                    fontWeight: 600,
-                    fontSize: '0.85rem',
-                    color: 'rgba(245,240,232,0.85)',
-                    marginBottom: '0.2rem',
-                  }}>
-                    {t.name}
-                  </div>
-                  <div style={{
-                    fontFamily: 'Jost',
-                    fontSize: '0.65rem',
-                    letterSpacing: '0.1em',
-                    color: 'rgba(201,168,76,0.5)',
-                  }}>
-                    {t.role}
-                  </div>
+                  <div style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '0.82rem', color: 'rgba(245,240,232,0.85)' }}>{t.name}</div>
+                  <div style={{ fontFamily: 'Jost', fontSize: '0.62rem', letterSpacing: '0.1em', color: 'rgba(201,168,76,0.5)', marginTop: '0.15rem' }}>{t.role} · {t.location}</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* Trust indicators */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '4rem',
-          marginTop: '5rem',
-          flexWrap: 'wrap',
-        }}>
-          {[
-            { icon: '🔒', label: 'Secure Payment' },
-            { icon: '🚚', label: 'Free Shipping' },
-            { icon: '↩️', label: '30-Day Returns' },
-            { icon: '✨', label: 'Authenticity Guaranteed' },
-          ].map(({ icon, label }) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '1.2rem' }}>{icon}</span>
-              <span style={{ fontFamily: 'Jost', fontSize: '0.72rem', letterSpacing: '0.12em', color: 'rgba(245,240,232,0.45)', textTransform: 'uppercase' }}>
-                {label}
-              </span>
-            </div>
+        {/* Trust badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          style={{ display: 'flex', justifyContent: 'center', gap: '3.5rem', marginTop: '4rem', flexWrap: 'wrap' }}
+        >
+          {[{ icon: '🔒', label: 'Secure Payments' }, { icon: '🚚', label: 'Fast Delivery' }, { icon: '✅', label: '100% Authentic' }, { icon: '↩️', label: '30-Day Returns' }].map((item, i) => (
+            <motion.div key={item.label}
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ delay: 0.5 + i * 0.1 }}
+              whileHover={{ y: -4 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'default' }}
+            >
+              <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
+              <span style={{ fontFamily: 'Jost', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(245,240,232,0.35)', textTransform: 'uppercase' }}>{item.label}</span>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

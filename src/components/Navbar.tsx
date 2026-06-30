@@ -1,194 +1,108 @@
 'use client';
 import { useState, useEffect } from 'react';
-
-const navLinks = [
-  { label: 'Collections', href: '#collections' },
-  { label: 'Watches', href: '#watches' },
-  { label: 'Suits', href: '#suits' },
-  { label: 'Perfumes', href: '#perfumes' },
-  { label: 'About', href: '#about' },
-];
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartCount] = useState(3);
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    setScrolled(latest > 50);
+  });
 
-  const scrollTo = (href: string) => {
-    setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
+  const navLinks = [
+    { label: 'Collections', href: '#collections' },
+    { label: 'Watches', href: '#watches' },
+    { label: 'Perfumes', href: '#perfumes' },
+    { label: 'Shirts', href: '#suits' },
+    { label: 'About', href: '#about' },
+  ];
 
   return (
-    <>
-      <nav style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        padding: scrolled ? '1rem 2rem' : '1.5rem 2rem',
-        background: scrolled
-          ? 'rgba(10,10,10,0.92)'
-          : 'transparent',
+    <motion.nav
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999,
+        padding: '0 3rem',
+        background: scrolled ? 'rgba(10,10,10,0.92)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(201,168,76,0.1)' : 'none',
-        transition: 'all 0.4s ease',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
-        {/* Logo */}
-        <a href="#" onClick={() => scrollTo('#')} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <span style={{
-            fontFamily: 'Cormorant, serif',
-            fontSize: '1.4rem',
-            fontWeight: 600,
-            letterSpacing: '0.15em',
-            background: 'linear-gradient(135deg, #C9A84C 0%, #E8C97A 50%, #C9A84C 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}>
-            FARHAN'S
-          </span>
-          <span style={{
-            fontFamily: 'Jost, sans-serif',
-            fontSize: '0.5rem',
-            letterSpacing: '0.5em',
-            color: 'rgba(201,168,76,0.6)',
-            marginTop: '-2px',
-          }}>STORE · LUXURY</span>
-        </a>
+        borderBottom: scrolled ? '1px solid rgba(201,168,76,0.1)' : '1px solid transparent',
+        transition: 'background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease',
+      }}
+    >
+      <div style={{ maxWidth: '1400px', margin: '0 auto', height: '75px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
-        {/* Desktop nav links */}
-        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }} className="hidden-mobile">
-          {navLinks.map(link => (
-            <button
+        {/* Logo */}
+        <motion.a href="#" whileHover={{ scale: 1.02 }} style={{ textDecoration: 'none', cursor: 'pointer' }}>
+          <div style={{ fontFamily: 'Cormorant, serif', fontSize: '1.4rem', fontWeight: 600, letterSpacing: '0.12em', background: 'linear-gradient(135deg,#C9A84C 0%,#E8C97A 50%,#C9A84C 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            FARHAN&apos;S
+          </div>
+          <div style={{ fontFamily: 'Jost', fontSize: '0.45rem', letterSpacing: '0.55em', color: 'rgba(201,168,76,0.4)' }}>
+            STORE · LUXURY
+          </div>
+        </motion.a>
+
+        {/* Desktop links */}
+        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+          {navLinks.map((link, i) => (
+            <motion.a
               key={link.label}
-              onClick={() => scrollTo(link.href)}
-              className="nav-link"
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              href={link.href}
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 + i * 0.08, duration: 0.5 }}
+              whileHover={{ color: '#C9A84C', y: -2 }}
+              onClick={e => { e.preventDefault(); document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' }); }}
+              style={{ fontFamily: 'Jost', fontSize: '0.72rem', letterSpacing: '0.18em', color: 'rgba(245,240,232,0.6)', textDecoration: 'none', textTransform: 'uppercase', cursor: 'pointer', transition: 'color 0.3s ease' }}
             >
               {link.label}
-            </button>
+            </motion.a>
           ))}
         </div>
 
-        {/* Right actions */}
+        {/* Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
           {/* Search */}
-          <button style={{ background: 'none', border: 'none', color: 'rgba(245,240,232,0.6)', cursor: 'pointer', padding: '4px' }}>
-            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          <motion.button whileHover={{ scale: 1.1, color: '#C9A84C' }} whileTap={{ scale: 0.9 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(245,240,232,0.5)', padding: '0.4rem', transition: 'color 0.3s ease' }}>
+            <svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
             </svg>
-          </button>
+          </motion.button>
 
           {/* Wishlist */}
-          <button style={{ background: 'none', border: 'none', color: 'rgba(245,240,232,0.6)', cursor: 'pointer', padding: '4px' }}>
-            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          <motion.button whileHover={{ scale: 1.1, color: '#C9A84C' }} whileTap={{ scale: 0.9 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(245,240,232,0.5)', padding: '0.4rem', transition: 'color 0.3s ease' }}>
+            <svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
-          </button>
+          </motion.button>
 
           {/* Cart */}
-          <button style={{ background: 'none', border: 'none', color: 'rgba(245,240,232,0.6)', cursor: 'pointer', padding: '4px', position: 'relative' }}>
-            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          <motion.button
+            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            onClick={() => setCartCount(c => c + 1)}
+            style={{ position: 'relative', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', borderRadius: '8px', cursor: 'pointer', color: '#C9A84C', padding: '0.45rem 0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><path d="M16 10a4 4 0 0 1-8 0" />
             </svg>
+            <span style={{ fontFamily: 'Jost', fontSize: '0.62rem', letterSpacing: '0.1em' }}>Cart</span>
             {cartCount > 0 && (
-              <span style={{
-                position: 'absolute',
-                top: '-2px',
-                right: '-4px',
-                width: '16px',
-                height: '16px',
-                background: 'linear-gradient(135deg, #C9A84C, #E8C97A)',
-                borderRadius: '50%',
-                fontSize: '0.55rem',
-                color: '#0A0A0A',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+              <motion.span
+                initial={{ scale: 0 }} animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                style={{ position: 'absolute', top: '-6px', right: '-6px', width: '18px', height: '18px', borderRadius: '50%', background: '#C9A84C', color: '#0A0A0A', fontSize: '0.55rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
                 {cartCount}
-              </span>
+              </motion.span>
             )}
-          </button>
-
-          {/* CTA */}
-          <button
-            className="btn-gold"
-            style={{ padding: '0.5rem 1.2rem', fontSize: '0.65rem', borderRadius: '4px', letterSpacing: '0.12em' }}
-          >
-            Shop Now
-          </button>
-
-          {/* Hamburger */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="show-mobile"
-            style={{ background: 'none', border: 'none', color: 'rgba(245,240,232,0.8)', cursor: 'pointer', display: 'none' }}
-          >
-            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-              {menuOpen
-                ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
-                : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>
-              }
-            </svg>
-          </button>
+          </motion.button>
         </div>
-      </nav>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 999,
-          background: 'rgba(10,10,10,0.98)',
-          backdropFilter: 'blur(20px)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '2rem',
-        }}>
-          {navLinks.map(link => (
-            <button
-              key={link.label}
-              onClick={() => scrollTo(link.href)}
-              style={{
-                background: 'none',
-                border: 'none',
-                fontFamily: 'Cormorant, serif',
-                fontSize: '2.5rem',
-                fontWeight: 300,
-                letterSpacing: '0.2em',
-                color: 'rgba(245,240,232,0.8)',
-                cursor: 'pointer',
-              }}
-            >
-              {link.label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      <style>{`
-        @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: block !important; }
-        }
-      `}</style>
-    </>
+      </div>
+    </motion.nav>
   );
 }
