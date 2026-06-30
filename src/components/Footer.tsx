@@ -55,11 +55,13 @@ export default function Footer() {
             Get in touch
           </p>
           <motion.a
-            href="mailto:hello@farhansstore.com"
+            href="https://www.linkedin.com/in/farhan-mustafa"
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.03, boxShadow: '0 0 0 1.5px #C9A84C, 0 15px 40px rgba(201,168,76,0.15)' }}
             style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontFamily: '"Instrument Serif", serif', fontStyle: 'italic', fontSize: 'clamp(1.8rem,5vw,3.5rem)', color: 'rgba(245,240,232,0.75)', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '9999px', padding: '0.6rem 2.5rem', transition: 'border-color 0.3s' }}
           >
-            hello@farhansstore.com ↗
+            FARHAN MUSTAFA ↗
           </motion.a>
         </motion.div>
 

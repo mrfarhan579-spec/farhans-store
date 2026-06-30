@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ProductSections from '@/components/ProductSections';
+import WatchShowcase from '@/components/WatchShowcase';
 import FeaturedSection from '@/components/FeaturedSection';
 import AboutSection from '@/components/AboutSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
@@ -13,23 +14,34 @@ import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
 import LoadingScreen from '@/components/LoadingScreen';
 
-const ParticleCursor    = dynamic(() => import('@/components/ParticleCursor'),    { ssr: false });
-const FloatingParticles = dynamic(() => import('@/components/FloatingParticles'), { ssr: false });
-const LenisSmoothScroll = dynamic(() => import('@/components/LenisSmoothScroll'), { ssr: false });
+const CloudIntro       = dynamic(() => import('@/components/CloudIntro'),        { ssr: false });
+const ParticleCursor   = dynamic(() => import('@/components/ParticleCursor'),    { ssr: false });
+const FloatingParticles= dynamic(() => import('@/components/FloatingParticles'), { ssr: false });
+const LenisSmoothScroll= dynamic(() => import('@/components/LenisSmoothScroll'), { ssr: false });
 
 export default function Home() {
-  const [introComplete, setIntroComplete] = useState(false);
+  const [cloudDone, setCloudDone] = useState(false);
+  const [loadDone,  setLoadDone]  = useState(false);
 
   return (
     <>
+      {/* Step 1 — Cinematic cloud intro */}
       <AnimatePresence>
-        {!introComplete && (
-          <LoadingScreen onComplete={() => setIntroComplete(true)} />
+        {!cloudDone && (
+          <CloudIntro onComplete={() => setCloudDone(true)} />
         )}
       </AnimatePresence>
 
+      {/* Step 2 — Counter loading screen (000 → 100) */}
       <AnimatePresence>
-        {introComplete && (
+        {cloudDone && !loadDone && (
+          <LoadingScreen onComplete={() => setLoadDone(true)} />
+        )}
+      </AnimatePresence>
+
+      {/* Step 3 — Main site */}
+      <AnimatePresence>
+        {loadDone && (
           <motion.div
             key="main"
             initial={{ opacity: 0 }}
@@ -44,6 +56,7 @@ export default function Home() {
               <main>
                 <HeroSection />
                 <ProductSections />
+                <WatchShowcase />
                 <FeaturedSection />
                 <AboutSection />
                 <TestimonialsSection />

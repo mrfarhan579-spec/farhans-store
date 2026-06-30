@@ -10,16 +10,16 @@ interface Product {
 
 const products: Record<string, Product[]> = {
   watches: [
-    { id: 1, name: 'Rolex Daytona Gold', price: 'Rs 10,000', originalPrice: 'Rs 12,500', badge: 'Bestseller', desc: 'Swiss Automatic · Sapphire Crystal', image: '/images/watch-rolex.jpg', category: 'Watches' },
-    { id: 2, name: 'Poedagar Phantom', price: 'Rs 10,000', originalPrice: null, badge: 'New Arrival', desc: 'Steel Case · Roman Numerals', image: '/images/watch-silver.jpg', category: 'Watches' },
-    { id: 3, name: 'TimeCheck Emerald', price: 'Rs 10,000', originalPrice: 'Rs 13,000', badge: 'Limited', desc: 'Green Dial · Steel Bracelet', image: '/images/watch-timecheck.jpg', category: 'Watches' },
-    { id: 4, name: 'Royal Chronograph', price: 'Rs 10,000', originalPrice: null, badge: null, desc: '18K Gold Plating · 50m Water Resist.', image: '/images/watch-rolex.jpg', category: 'Watches' },
+    { id: 1, name: 'Rolex Daytona Gold', price: 'Rs 10,000', originalPrice: 'Rs 12,500', badge: 'Bestseller', desc: 'Swiss Automatic · 18K Gold · Sapphire Crystal', image: '/images/watch-rolex.jpg', category: 'Watches' },
+    { id: 2, name: 'Curren Sport Blue', price: 'Rs 10,000', originalPrice: null, badge: 'New Arrival', desc: 'Blue Case · Leather Strap · Rose Gold Numerals', image: '/images/watch-curren.jpg', category: 'Watches' },
+    { id: 3, name: 'TimeCheck Emerald', price: 'Rs 10,000', originalPrice: 'Rs 13,000', badge: 'Limited', desc: 'Green Dial · Steel Bracelet · Luminous', image: '/images/watch-timecheck.jpg', category: 'Watches' },
+    { id: 4, name: 'Poedagar Elite', price: 'Rs 10,000', originalPrice: null, badge: null, desc: 'Steel Case · Blue Crystal · Roman Numerals', image: '/images/watch-poedagar.jpg', category: 'Watches' },
   ],
   perfumes: [
-    { id: 5, name: 'Janan Gold Edition', price: 'Rs 5,000', originalPrice: 'Rs 6,500', badge: 'Bestseller', desc: 'Eau de Parfum · 30ml', image: '/images/perfume-janan.jpg', category: 'Perfumes' },
-    { id: 6, name: 'Club de Nuit Intense', price: 'Rs 5,000', originalPrice: null, badge: 'New', desc: 'Armaf · Oud · Bergamot · Cedar', image: '/images/perfume-armaf-bottle.jpg', category: 'Perfumes' },
-    { id: 7, name: 'Club de Nuit Sport', price: 'Rs 5,000', originalPrice: 'Rs 7,000', badge: 'Limited', desc: 'Armaf · Fresh · Aquatic · Musk', image: '/images/perfume-armaf-can.jpg', category: 'Perfumes' },
-    { id: 8, name: 'Amber Noir Intense', price: 'Rs 5,000', originalPrice: null, badge: null, desc: 'Amber · Leather · Cedar · Patchouli', image: '/images/perfume-janan.jpg', category: 'Perfumes' },
+    { id: 5, name: 'Janan Gold Edition', price: 'Rs 5,000', originalPrice: 'Rs 6,500', badge: 'Bestseller', desc: 'Eau de Parfum · 30ml · Pour Homme', image: '/images/perfume-janan.jpg', category: 'Perfumes' },
+    { id: 6, name: 'Janan Intense', price: 'Rs 5,000', originalPrice: null, badge: 'New', desc: 'Gold Bottle · Warm Oriental · Amber', image: '/images/perfume-janan-intense.jpg', category: 'Perfumes' },
+    { id: 7, name: 'Dior Sauvage', price: 'Rs 5,000', originalPrice: 'Rs 7,000', badge: 'Limited', desc: 'Parfum · Fresh Spicy · Icon Fragrance', image: '/images/perfume-sauvage.jpg', category: 'Perfumes' },
+    { id: 8, name: 'Club de Nuit Intense', price: 'Rs 5,000', originalPrice: null, badge: null, desc: 'Armaf · Oud · Bergamot · Cedar', image: '/images/perfume-armaf-bottle.jpg', category: 'Perfumes' },
   ],
   shirts: [
     { id: 9, name: 'Ocean Blue Classic', price: 'Rs 2,000', originalPrice: 'Rs 2,800', badge: 'Bestseller', desc: 'Premium Cotton · Slim Fit', image: '/images/shirt-blue.jpg', category: 'Shirts' },
