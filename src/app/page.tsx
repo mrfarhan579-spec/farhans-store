@@ -11,8 +11,8 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import FAQSection from '@/components/FAQSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
+import LoadingScreen from '@/components/LoadingScreen';
 
-const CloudIntro        = dynamic(() => import('@/components/CloudIntro'),        { ssr: false });
 const ParticleCursor    = dynamic(() => import('@/components/ParticleCursor'),    { ssr: false });
 const FloatingParticles = dynamic(() => import('@/components/FloatingParticles'), { ssr: false });
 const LenisSmoothScroll = dynamic(() => import('@/components/LenisSmoothScroll'), { ssr: false });
@@ -24,7 +24,7 @@ export default function Home() {
     <>
       <AnimatePresence>
         {!introComplete && (
-          <CloudIntro onComplete={() => setIntroComplete(true)} />
+          <LoadingScreen onComplete={() => setIntroComplete(true)} />
         )}
       </AnimatePresence>
 
@@ -34,7 +34,7 @@ export default function Home() {
             key="main"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
+            transition={{ duration: 1, ease: 'easeOut' }}
             style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}
           >
             <ParticleCursor />
