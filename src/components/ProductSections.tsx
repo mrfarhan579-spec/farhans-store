@@ -22,8 +22,8 @@ const WATCHES: Product[] = [
   {
     id: 1,
     name: 'Rolex Daytona Green',
-    price: 'Rs 10,000',
-    originalPrice: 'Rs 12,500',
+    price: 'Rs 5,000',
+    originalPrice: 'Rs 6,500',
     badge: 'Bestseller',
     desc: 'Swiss Automatic · 18K Gold · Green Dial · Oyster',
     image: '/images/watch-rolex-green.jpg',
@@ -31,7 +31,7 @@ const WATCHES: Product[] = [
   {
     id: 2,
     name: 'Curren Sport Blue',
-    price: 'Rs 10,000',
+    price: 'Rs 5,000',
     originalPrice: null,
     badge: 'New Arrival',
     desc: 'Blue Case · Leather Strap · Rose Gold Numerals',
@@ -40,8 +40,8 @@ const WATCHES: Product[] = [
   {
     id: 3,
     name: 'Poedagar Silver Elite',
-    price: 'Rs 10,000',
-    originalPrice: 'Rs 13,000',
+    price: 'Rs 5,000',
+    originalPrice: 'Rs 7,000',
     badge: 'Limited',
     desc: 'Stainless Steel · Black Dial · Roman Numerals · Date',
     image: '/images/watch-poedagar-silver.jpg',
@@ -49,7 +49,7 @@ const WATCHES: Product[] = [
   {
     id: 4,
     name: 'Diver Gold Edition',
-    price: 'Rs 10,000',
+    price: 'Rs 5,000',
     originalPrice: null,
     badge: 'Exclusive',
     desc: 'Two-Tone Gold & Silver · Blue Dial · Day-Date · 200m WR',
@@ -67,8 +67,8 @@ const FRAGRANCES: Product[] = [
   {
     id: 5,
     name: 'Blue For Men',
-    price: 'Rs 5,000',
-    originalPrice: 'Rs 6,500',
+    price: 'Rs 10,000',
+    originalPrice: 'Rs 12,000',
     badge: 'Bestseller',
     desc: 'Eau de Parfum · Al Zai · Fresh Aquatic · Pour Homme',
     image: '/images/perfume-blue-men.jpg',
@@ -76,7 +76,7 @@ const FRAGRANCES: Product[] = [
   {
     id: 6,
     name: 'Armaf Club de Nuit',
-    price: 'Rs 5,000',
+    price: 'Rs 10,000',
     originalPrice: null,
     badge: 'New',
     desc: 'Intense Man · Oud · Bergamot · Cedar · Musk',
@@ -85,8 +85,8 @@ const FRAGRANCES: Product[] = [
   {
     id: 7,
     name: 'Dior Sauvage',
-    price: 'Rs 5,000',
-    originalPrice: 'Rs 7,500',
+    price: 'Rs 10,000',
+    originalPrice: 'Rs 13,500',
     badge: 'Icon',
     desc: 'Parfum · Bergamot · Pepper · Ambroxan · World Famous',
     image: '/images/perfume-sauvage-new.jpg',
@@ -94,7 +94,7 @@ const FRAGRANCES: Product[] = [
   {
     id: 8,
     name: 'Aroma by Diners',
-    price: 'Rs 5,000',
+    price: 'Rs 10,000',
     originalPrice: null,
     badge: 'New',
     desc: 'Eau de Parfum · Floral · Rose · Fresh · Elegant',
