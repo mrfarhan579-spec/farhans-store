@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ProductSections from '@/components/ProductSections';
-import WatchShowcase from '@/components/WatchShowcase';
 import FeaturedSection from '@/components/FeaturedSection';
 import AboutSection from '@/components/AboutSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
@@ -14,10 +13,10 @@ import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
 import LoadingScreen from '@/components/LoadingScreen';
 
-const CloudIntro       = dynamic(() => import('@/components/CloudIntro'),        { ssr: false });
-const ParticleCursor   = dynamic(() => import('@/components/ParticleCursor'),    { ssr: false });
-const FloatingParticles= dynamic(() => import('@/components/FloatingParticles'), { ssr: false });
-const LenisSmoothScroll= dynamic(() => import('@/components/LenisSmoothScroll'), { ssr: false });
+const CloudIntro        = dynamic(() => import('@/components/CloudIntro'),        { ssr: false });
+const ParticleCursor    = dynamic(() => import('@/components/ParticleCursor'),    { ssr: false });
+const FloatingParticles = dynamic(() => import('@/components/FloatingParticles'), { ssr: false });
+const LenisSmoothScroll = dynamic(() => import('@/components/LenisSmoothScroll'), { ssr: false });
 
 export default function Home() {
   const [cloudDone, setCloudDone] = useState(false);
@@ -56,7 +55,6 @@ export default function Home() {
               <main>
                 <HeroSection />
                 <ProductSections />
-                <WatchShowcase />
                 <FeaturedSection />
                 <AboutSection />
                 <TestimonialsSection />
