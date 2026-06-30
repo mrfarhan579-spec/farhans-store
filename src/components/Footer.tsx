@@ -27,7 +27,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer style={{ background: '#070707', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
+    <footer style={{ background: '#070707', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative' }}>
 
       {/* Subtle glow */}
       <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '700px', height: '200px', background: 'radial-gradient(ellipse at 50% 100%,rgba(201,168,76,0.04) 0%,transparent 70%)', pointerEvents: 'none' }} />

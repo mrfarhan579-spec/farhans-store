@@ -15,7 +15,6 @@ import LoadingScreen from '@/components/LoadingScreen';
 
 const CloudIntro        = dynamic(() => import('@/components/CloudIntro'),        { ssr: false });
 const FloatingParticles = dynamic(() => import('@/components/FloatingParticles'), { ssr: false });
-const LenisSmoothScroll = dynamic(() => import('@/components/LenisSmoothScroll'), { ssr: false });
 
 export default function Home() {
   const [cloudDone, setCloudDone] = useState(false);
@@ -44,19 +43,17 @@ export default function Home() {
             style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}
           >
             <FloatingParticles />
-            <LenisSmoothScroll>
-              <Navbar />
-              <main>
-                <HeroSection />
-                <ProductSections />
-                <FeaturedSection />
-                <AboutSection />
-                <TestimonialsSection />
-                <FAQSection />
-                <NewsletterSection />
-              </main>
-              <Footer />
-            </LenisSmoothScroll>
+            <Navbar />
+            <main>
+              <HeroSection />
+              <ProductSections />
+              <FeaturedSection />
+              <AboutSection />
+              <TestimonialsSection />
+              <FAQSection />
+              <NewsletterSection />
+            </main>
+            <Footer />
           </motion.div>
         )}
       </AnimatePresence>

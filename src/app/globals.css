@@ -36,15 +36,9 @@ body {
   cursor: default;
 }
 
-/* Lenis smooth scroll */
-html.lenis {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+/* Native smooth scroll — works on all browsers, no library needed */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Normal OS cursor restored */
